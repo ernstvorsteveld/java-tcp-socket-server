@@ -16,7 +16,8 @@ public class TcpMessageEndpoint {
     }
 
     @ServiceActivator(inputChannel = ServerConfiguration.TCP_CHANNEL)
-    public byte[] process(byte[] message) {
+//    public byte[] process(byte[] message) {
+    public byte[] process(String message) {
         String response = handler.handle(message);
         log.debug("Send message to client: {}", response);
         return response.getBytes();

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  springboot-app-1:
+    image: stern/java-tcp-socket-simple
+    environment:
+      - INSTANCE_NAME=tcp-server1
+    container_name: tcp-server1
+    ports:
+      - "10011:10001"
+    networks:
+      - tcp_network
+  springboot-app-2:
+    image: stern/java-tcp-socket-simple
+    environment:
+      - INSTANCE_NAME=tcp-server2
+    container_name: tcp-server2
+    ports:
+      - "10012:10001"
+    networks:
+      - tcp_network
+
+  haproxy:
+    image: haproxy:2.9.4
+    container_name: haproxy
+    depends_on:
+      - springboot-app-1
+      - springboot-app-2
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports:
+      - "80:80"
+    networks:
+      - tcp_network
+
+networks:
+  tcp_network:
+    name: tcp_network
+    driver: bridge
