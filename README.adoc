@@ -3,7 +3,7 @@
 [source,bash]
 ----
 # Docker build
-docker build -t stern/java-txp-socket-simple .
+docker build -t stern/java-tcp-socket-simple .
 
 
 
